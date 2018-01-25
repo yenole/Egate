@@ -1,11 +1,16 @@
 package proto
 
 import (
+	"egate/model"
 	"github.com/golang/protobuf/proto"
 	"reflect"
 )
 
-type ProtoMsgParse struct {}
+type ProtoMsgParse struct{}
+
+func init() {
+	model.MsgParse(new(ProtoMsgParse))
+}
 
 func (p *ProtoMsgParse) Marshal(m interface{}) ([]byte, error) {
 	return proto.Marshal(m.(proto.Message))

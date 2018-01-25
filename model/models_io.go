@@ -3,14 +3,7 @@ package model
 import (
 	"egate/elog"
 	"egate/gate"
-	"egate/model/encoding/json"
-	"egate/model/encoding/proto"
 	"reflect"
-)
-
-const (
-	MSG_PARSER_PROTO = iota //PROTOCBUF
-	MSG_PARSER_JSON
 )
 
 var (
@@ -25,16 +18,7 @@ type MsgParser interface {
 	Unmarshal(p []byte, t reflect.Type) (interface{}, error)
 }
 
-func MsgParse(id uint32) {
-	switch id {
-	case MSG_PARSER_PROTO:
-		msgParse = &proto.ProtoMsgParse{}
-	case MSG_PARSER_JSON:
-		msgParse = &json.JsonMsgParse{}
-	}
-}
-
-func MsgParseDiv(p MsgParser) {
+func MsgParse(p MsgParser) {
 	if p != nil {
 		msgParse = p
 	}
