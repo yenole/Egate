@@ -85,7 +85,7 @@ func (e *Egate) Recv(agent Agent) {
 		m := Middleware{mfs: e.mfsin, Agent: agent}
 		for {
 			m.next = 0
-			if m.Next().IsAbort() {
+			if p := m.Next(); p == nil || p.IsAbort() {
 				break
 			}
 		}
@@ -138,7 +138,6 @@ func (m *Middleware) Next() *Middleware {
 			}
 		}()
 		m.mfs[m.next-1](m)
-
 	}
 	return m
 }

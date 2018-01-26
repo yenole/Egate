@@ -32,7 +32,6 @@ func (l *logFile) gSync() {
 	logFile := fmt.Sprintf("%v/app.%v.log", l.dirPath, time.Now().Format(time_layout))
 	if file, err := os.OpenFile(logFile, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0755); err == nil {
 		l.logger.SetOutput(file)
-		l.logger.SetFlags(log.Ldate)
 	}
 }
 
