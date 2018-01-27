@@ -8,6 +8,21 @@ import (
 	"io"
 )
 
+var (
+	IdEndian  Endian
+	LenEndian Endian
+)
+
+type Endian interface {
+	Uint16(p []byte) uint16
+	PutUint16(b []byte, v uint16)
+}
+
+func init() {
+	IdEndian = binary.LittleEndian
+	LenEndian = binary.LittleEndian
+}
+
 func In(m *gate.Middleware) {
 	lenBuf := make([]byte, 2)
 	if _, err := m.Agent.Read(lenBuf); err != nil {
@@ -18,7 +33,7 @@ func In(m *gate.Middleware) {
 		m.Next()
 		return
 	}
-	pLen := uint32(binary.LittleEndian.Uint16(lenBuf))
+	pLen := uint32(LenEndian.Uint16(lenBuf))
 	msgBuf := make([]byte, pLen)
 	if _, err := io.ReadFull(m.Agent, msgBuf); err != nil {
 		elog.Fatal("io.ReadFull:%v", err)
@@ -26,7 +41,7 @@ func In(m *gate.Middleware) {
 		m.Next()
 		return
 	}
-	m.Msg.Id = uint32(binary.BigEndian.Uint16(msgBuf[:2]))
+	m.Msg.Id = uint32(IdEndian.Uint16(msgBuf[:2]))
 	m.Msg.Msg = msgBuf[2:]
 	m.Next()
 }
@@ -37,8 +52,8 @@ func Out(m *gate.Middleware) {
 		msg := m.Msg.Msg.([]byte)
 		lenBuf := make([]byte, 2)
 		idBuf := make([]byte, 2)
-		binary.BigEndian.PutUint16(idBuf, uint16(m.Msg.Id))
-		binary.LittleEndian.PutUint16(lenBuf, uint16(len(msg)+2))
+		IdEndian.PutUint16(idBuf, uint16(m.Msg.Id))
+		LenEndian.PutUint16(lenBuf, uint16(len(msg)+2))
 		buffer := bytes.NewBuffer(lenBuf)
 		buffer.Write(idBuf)
 		buffer.Write(msg)
