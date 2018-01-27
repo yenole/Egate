@@ -9,7 +9,7 @@ import (
 type JsonMsgParse struct{}
 
 func init() {
-	model.MsgParseDiv(new(JsonMsgParse))
+	model.MsgParse(new(JsonMsgParse))
 }
 
 func (p *JsonMsgParse) Marshal(m interface{}) ([]byte, error) {
