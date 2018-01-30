@@ -46,6 +46,28 @@ func MsgModelIn(m interface{}, fs ...string) {
 	}
 }
 
+//	模块消息进
+func MsgModelInExt(m interface{}, hooks map[string]interface{}, fs ...string) {
+	if m != nil {
+		if hooks == nil {
+			hooks = make(map[string]interface{})
+		}
+		t := reflect.ValueOf(m).Type()
+		for _, v := range fs {
+			if m, ok := t.MethodByName(v); ok {
+				modelMsgs[uint32(len(inMsgs))] = m.Index
+				if t, ok := hooks[v]; ok {
+					inMsgs = append(inMsgs, reflect.TypeOf(t))
+				} else {
+					inMsgs = append(inMsgs, m.Type.In(1))
+				}
+			} else {
+				elog.Fatal("%s %s method not found!", t.Elem().Name(), v)
+			}
+		}
+	}
+}
+
 // 消息进
 func MsgIn(msgs ...interface{}) {
 	for _, v := range msgs {

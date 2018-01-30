@@ -9,7 +9,12 @@ import (
 
 func Print() {
 	for i, v := range inMsgs {
-		fmt.Println("->", i, "\t", v.Elem().Name())
+		if v.Kind() == reflect.Interface {
+			fmt.Println("->", i, "\t", v.Name())
+		} else {
+			fmt.Println("->", i, "\t", v.Elem().Name())
+		}
+
 	}
 	fmt.Println()
 	outs := make([]reflect.Type, len(outMsgs))
@@ -17,6 +22,10 @@ func Print() {
 		outs[v] = k
 	}
 	for i, v := range outs {
-		fmt.Println("<-", i, "\t", v.Elem().Name())
+		if v.Kind() == reflect.Interface {
+			fmt.Println("<-", i, "\t", v.Name())
+		} else {
+			fmt.Println("<-", i, "\t", v.Elem().Name())
+		}
 	}
 }
