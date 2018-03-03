@@ -3,4 +3,7 @@
 ### 功能
 * 支持tcp\ws连接。
 * 内置gorm数据序列化。
-* 请求自动映射Model函数。
+* 请求自动映射Model函数
+
+### Demo
+* https://github.com/Yenole/Egate-Demo.git
