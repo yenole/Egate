@@ -64,3 +64,13 @@ func (p *Pool) Len() int {
 	defer p.RUnlock()
 	return len(p.values)
 }
+
+func (p *Pool) Keys() []interface{} {
+	p.RLock()
+	defer p.RUnlock()
+	keys := make([]interface{}, 0, len(p.values))
+	for k, _ := range p.values {
+		keys = append(keys, k)
+	}
+	return keys
+}

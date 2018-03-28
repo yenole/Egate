@@ -19,7 +19,6 @@ const (
 	printFatalLevel = "[FATAL] "
 )
 
-
 var gLevel int
 var gLogger = log.New(os.Stderr, "", log.LstdFlags)
 

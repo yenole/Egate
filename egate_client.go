@@ -5,8 +5,8 @@ package egate
 import (
 	"egate/gate"
 	"egate/gate/packet"
-	"egate/model"
 	"egate/gate/route"
+	"egate/model"
 )
 
 // 客户端默认进出模式

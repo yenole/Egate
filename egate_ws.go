@@ -3,8 +3,8 @@
 package egate
 
 import (
-	"egate/gate/network"
 	"egate/gate"
+	"egate/gate/network"
 	"errors"
 )
 
