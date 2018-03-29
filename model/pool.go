@@ -74,3 +74,11 @@ func (p *Pool) Keys() []interface{} {
 	}
 	return keys
 }
+
+func (p *Pool) Clean() {
+	p.Lock()
+	defer p.Unlock()
+	for k, _ := range p.values {
+		delete(p.values, k)
+	}
+}
